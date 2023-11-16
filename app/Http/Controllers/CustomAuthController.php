@@ -24,10 +24,11 @@ class CustomAuthController extends Controller
         if ($user && Hash::check($credentials['password'], $user->Contraseña)) {
             // Autenticación exitosa
             // Almacena el ID_rol en la sesión
+            $request->session()->put('id_usuario', $user->id_usuario);
             $request->session()->put('ID_rol', $user->ID_rol);
     
             if ($user->ID_rol == 1) {
-                return redirect('/admin/dashboard');
+                return redirect('/admin/index');
             } else {
                 return redirect('/user/dashboard');
             }
@@ -40,8 +41,17 @@ class CustomAuthController extends Controller
 
     public function logout(Request $request)
     {
-        // Lógica de cierre de sesión si es necesario
+        
+        auth()->logout();
+    
+        
+        $request->session()->invalidate();
+    
 
+        $request->session()->regenerateToken();
+    
+       
         return redirect('/');
     }
+    
 }

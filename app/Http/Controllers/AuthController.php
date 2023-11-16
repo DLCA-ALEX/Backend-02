@@ -22,7 +22,7 @@ class AuthController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if ($user->ID_rol === 1) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.index');
         } else {
             return redirect()->route('user.dashboard');
         }
