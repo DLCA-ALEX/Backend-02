@@ -22,4 +22,21 @@ class Grafica3Controller extends Controller
             return response()->json($data);
            
     }
+
+
+    public function obtenerDatosParaGraficaApi3()
+    {
+
+        
+
+        $data = Medicioneslad1ys69::select('fecha_hora_mlad1ys69', 'id_medicioneslad1ys69', 'temperatura_mlad1ys69', 'humedad_mlad1ys69')
+          
+            ->get();
+
+        
+
+
+            return response()->json($data);
+           
+    }
 }

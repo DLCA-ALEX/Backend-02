@@ -30,7 +30,7 @@ class CustomAuthController extends Controller
             if ($user->ID_rol == 1) {
                 return redirect('/admin/index');
             } else {
-                return redirect('/user/dashboard');
+                return redirect('/user/index');
             }
         }
     

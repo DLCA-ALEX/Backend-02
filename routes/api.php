@@ -17,3 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+use App\Http\Controllers\GraficaController;
+use App\Http\Controllers\Grafica2Controller;
+use App\Http\Controllers\Grafica3Controller;
+use App\Http\Controllers\Grafica4Controller;
+Route::get('/datos-para-grafica', [GraficaController::class, 'obtenerDatosParaGraficaApi']);
+
+Route::get('/datos-para-grafica2', [Grafica2Controller::class, 'obtenerDatosParaGraficaApi2']);
+Route::get('/datos-para-grafica3', [Grafica3Controller::class, 'obtenerDatosParaGraficaApi3']);
+Route::get('/datos-para-grafica4', [Grafica4Controller::class, 'obtenerDatosParaGraficaApi4']);

@@ -22,4 +22,14 @@ class Grafica2Controller extends Controller
             return response()->json($data);
            
     }
+
+
+    public function obtenerDatosParaGraficaApi2()
+    {
+        
+        $data = Medicioneslad2dht::select('fecha_hora_mlad2dht', 'ID_Medciones', 'temperatura_mlad2dht', 'humedad_mlad2dht', 'fecha_hora_mlad2dht')
+            ->get();
+
+        return response()->json($data);
+    }
 }

@@ -25,7 +25,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/registro', [RegistroController::class, 'mostrarFormulario']);
+Route::get('/registro', [RegistroController::class, 'mostrarFormulario'])->name('registro');
 Route::post('/registro', [RegistroController::class, 'registrarUsuario']);
 
 Route::prefix('admin')->middleware(['admin'])->group(function () {
@@ -53,10 +53,34 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     Route::get('/admin/delete-user/{id}', [AdminController::class, 'deleteUser'])->name('admin.deleteUser');
 });
 
-Route::get('/user/dashboard/', [UserController::class, 'dashboard'])
-    ->middleware('user')
-    ->name('user.dashboard');
 
+Route::prefix('user')->middleware(['user'])->group(function () {
+Route::get('/index', [UserController::class, 'index'])->name('user.index');
+
+
+
+Route::get('/sidebar', function () {
+    return view('user.sidebar');
+})->name('user.sidebar');
+
+Route::get('/sensor2', function () {
+    return view('user.vista2');
+})->name('user.sensor2');
+
+Route::get('/sensor3', function () {
+    return view('user.vista3');
+})->name('user.sensor3');
+
+Route::get('/sensor4', function () {
+    return view('user.vista4');
+})->name('user.sensor4');
+
+Route::post('/user/edit', [UserController::class, 'edit'])->name('user.edit');
+Route::post('/user/edit/{id}', [UserController::class, 'editUser'])->name('user.editUser');
+Route::get('/user/index', [UserController::class, 'index'])->name('user.index');
+Route::get('/user/delete-user/{id}', [UserController::class, 'deleteUser'])->name('user.deleteUser');
+
+});
 
 Route::get('/login', [CustomAuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [CustomAuthController::class, 'login']);

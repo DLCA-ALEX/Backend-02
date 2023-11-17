@@ -249,99 +249,11 @@
       /* Cambia el color del icono a negro */
       outline: none;
     }
-
-
-
-    @import url("https://fonts.googleapis.com/css?family=Lato:300,300italic");
-        @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css");
-        .dashboard{
-            font-family: "Lato", sans-serif;
-        }
-        .header{
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
-            justify-content: space-between;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        .server{
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        .fa-solid{
-            font-size: 2.5rem;
-            margin: 0 2rem;
-        }
-        .details{
-            flex: 1;
-            display: block;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .details li{
-            color: #7e8794;
-            display: block;
-            font-size: 1.2rem;
-            line-height: 1.5;
-        }
-        .details li:last-child .data{
-            font-weight: normal;
-            color: #e6f5ff52;
-        }
-        .details .data{
-            margin: -1.7rem 0 0 0;
-            display: block;
-            color: #c1c6cb;
-            padding: 0 1rem 0 0;
-            font-weight: 600;
-            text-align: right;
-        }
-        .details .signal{
-            color: #2eb35a;
-        }
-        .details .signal::before{
-            content: "";
-            background-color: currentColor;
-            display: inline-block;
-            width: 0.6rem;
-            height: 0.6rem;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            margin-top: -0.2rem;
-            vertical-align: middle;
-        }
-        .server-list{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-            grid-gap: 2rem;
-        }
-        .server.has-failed{
-            border-color: #d22c32;
-            box-shadow: 0px 4px 15px #00000033;
-            animation: alert .8s ease-in-out infinite;
-        }
-        .server.has-failed .fa-solid,
-        .server.has-failed .signal{
-            color: #d22c32;
-        }
-        @keyframes alert {
-            0%{
-                background: #d22c3200;
-            }
-            50%{
-                background: #d22c3233;
-            }
-            100%{
-                background: #d22c3200;
-            }
-        }
   </style>
+
+
+
+
 </head>
 
 <body>
@@ -398,29 +310,29 @@
     </div>
     <ul class="sidebar-menu">
       <li class="sidebar-menu-item active">
-        <a href="paneladmin.php" class="sidebar-menu-link " style="
+        <a href="{{ route('user.index') }}" class="sidebar-menu-link " style="
     color: white;
 ">
           <i class="fa fa-plus dc" aria-hidden="true"></i> Administrar cuenta
         </a>
       </li>
       <li class="sidebar-menu-item ">
-        <a href="{{ route('admin.sidebar') }}" class="sidebar-menu-link dc">
+        <a href="{{ route('user.sidebar') }}" class="sidebar-menu-link dc">
           <i class="fa fa-plus dc" aria-hidden="true"></i>Sensor mlad1dht
         </a>
       </li>
       <li class="sidebar-menu-item ">
-        <a href="{{ route('admin.sensor2') }}"  class="sidebar-menu-link dc">
+        <a href="{{ route('user.sensor2') }}"  class="sidebar-menu-link dc">
           <i class="fa fa-plus dc" aria-hidden="true"></i> Sensor mlad2dht
         </a>
       </li>
       <li class="sidebar-menu-item ">
-        <a href="{{ route('admin.sensor3') }}"class="sidebar-menu-link dc">
+        <a href="{{ route('user.sensor3') }}"class="sidebar-menu-link dc">
           <i class="far fa-file-alt dc" aria-hidden="true"></i> Sensor mlad1ys69
         </a>
       </li>
       <li class="sidebar-menu-item ">
-        <a href="{{ route('admin.sensor4') }}" class="sidebar-menu-link dc">
+        <a href="{{ route('user.sensor4') }}" class="sidebar-menu-link dc">
           <i> <img src="Resultados.png" width="15px"> </img>&nbsp;&nbsp;</i>Sensor mlad2ys69</a>
         </a>
       </li>
@@ -449,7 +361,7 @@
     <div class="container-fluid">
       <br>
     
-@include('components.modals.edit-profile-modal')
+@include('components.modals.edit-user-modal')
 
       <div class="row">
         <div class="col-md-6">
@@ -466,7 +378,8 @@
            @endif
         </div>
         <div class="col-md-6">
-           Hola
+          <p id="clock"></p>
+          <div id="calendar"></div>
         </div>
      </div>
 
@@ -477,98 +390,7 @@
 
 <br>
 
-<div class="container-fluid">
-  <h2>Listado de Usuarios</h2>
 
- 
-  <input type="text" id="searchInput" placeholder="Buscar por nombre o correo">
-
-  <table class="table" id="userTable">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Rol</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach($users as $userItem)
-        <tr>
-          <td class="userName">{{ $userItem->Nombre }}</td>
-          <td class="userEmail">{{ $userItem->Email }}</td>
-          <td>{{ $userItem->ID_rol }}</td>
-          <td>
-            @if($userItem->id_usuario != session('id_usuario'))
-             
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editUserModal{{ $userItem->id_usuario }}">
-                Editar
-              </button>
-            @else
-         
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">
-                Editar Perfil
-              </button>
-            @endif
-            <a href="#" class="btn btn-danger" onclick="confirmDelete('{{ route('admin.deleteUser', ['id' => $userItem->id_usuario]) }}')">Eliminar</a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
-<br>
-
-<div class="container-fluid">
-  <br>
-
-
-  <div class="dashboard">
-    <header class="header">
-        <span>Control de sensores</span>
-        <span class="clock">12 : 37 : 29</span>
-    </header>
-    <div class="server-list">
-        <div class="server" id="server1">
-            <i class="fa-solid fa-earth-americas"></i>
-            <ul class="details">
-                <li>Sensor:<span class="data">Mlad1dht</span></li>
-                <li>Status:<span class="signal">online</span></li>
-                <li>address:<span class="data">182839</span></li>
-            </ul>
-        </div>
-        <div class="server has-failed" id="server2">
-            <i class="fa-solid fa-earth-americas"></i>
-            <ul class="details">
-                <li>Sensor:<span class="data">Mlad2dht</span></li>
-                <li> Status:<span class="signal">offline</span></li>
-                <li>address:<span class="data">189.38</span></li>
-            </ul>
-        </div>
-
-        <div class="server has-failed" id="server3">
-            <i class="fa-solid fa-server"></i>
-            <ul class="details">
-                <li>Sensor:<span class="data">Mlad2ys69</span></li>
-                <li> Status:<span class="signal">offline</span></li>
-                <li>address:<span class="data">189.38</span></li>
-            </ul>
-        </div>
-
-        <div class="server has-failed" id="server4">
-            <i class="fa-solid fa-server"></i>
-            <ul class="details">
-                <li>Sensor:<span class="data">Mlad2ys69</span></li>
-                <li> Status:<span class="signal">offline</span></li>
-                <li>address:<span class="data">189.38</span></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-
-</div>
 
 <div class="sidebar-toggle" id="sidebarToggle">
   <i class="fas fa-chevron-left"></i>
@@ -627,47 +449,43 @@
 </script>
 
 
-
-
-
-
+<!-- Incluye la biblioteca Moment.js para trabajar con fechas y horas -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <script>
-  function updateTime(){
-      const clock = document.querySelector(".clock");
-      const now = new Date();
-      const hours =  now.getHours().toString().padStart(2, '0');
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
-      clock.innerText = `${hours} : ${minutes} : ${seconds}`;
-  }
-  
-  async function updateStatus(apiUrl, serverId){
-      const response = await fetch(apiUrl);
-      const { status } = response;
-  
-      const server = document.getElementById(serverId);
-      if (status === 200){
-          server.classList.remove('has-failed');
-          server.querySelector('.signal').innerText = 'Online';
-      } else {
-          server.classList.add('has-failed');
-          server.querySelector('.signal').innerText = 'Offline';
-      }
-  }
-  
-  function updateAllStatus(){
-      updateStatus("http://127.0.0.1:8000/api/datos-para-grafica", "server1");
-      updateStatus("http://127.0.0.1:8000/api/datos-para-grafica2", "server2");
-      updateStatus("http://127.0.0.1:8000/api/datos-para-grafica3", "server3");
-      updateStatus("http://127.0.0.1:8000/api/datos-para-grafica4", "server4");
-  
-      setTimeout(updateAllStatus, 5000);
-  }
-  
-  setInterval(updateTime, 900);
-  updateAllStatus();
+    // Función para actualizar el reloj en tiempo real
+    function updateClock() {
+        const now = moment();
+        const formattedTime = now.format('HH:mm:ss');
+        document.getElementById('clock').innerText = `Hora: ${formattedTime}`;
+    }
+
+    // Función para actualizar el calendario en tiempo real
+    function updateCalendar() {
+        const now = moment();
+        const formattedDate = now.format('MMMM D, YYYY');
+        document.getElementById('calendar').innerText = `Fecha: ${formattedDate}`;
+    }
+
+    // Actualiza el reloj y el calendario cada segundo
+    setInterval(() => {
+        updateClock();
+        updateCalendar();
+    }, 1000);
+
+    // Inicializa el reloj y el calendario al cargar la página
+    window.onload = () => {
+        updateClock();
+        updateCalendar();
+    };
 </script>
+
+
+
+
+
+
+
 
 </body>
 
